@@ -150,6 +150,12 @@ KVConnectorFactory.register_connector(
 )
 
 KVConnectorFactory.register_connector(
+    "FP8TransitConnector",
+    "vllm.distributed.kv_transfer.kv_connector.v1.fp8_transit_connector",
+    "FP8TransitConnector",
+)
+
+KVConnectorFactory.register_connector(
     "ExampleHiddenStatesConnector",
     "vllm.distributed.kv_transfer.kv_connector.v1.example_hidden_states_connector",
     "ExampleHiddenStatesConnector",
