@@ -2,6 +2,7 @@
 # SPDX-FileCopyrightText: Copyright contributors to the vLLM project
 
 from dataclasses import dataclass
+import os
 from typing import TYPE_CHECKING, Any
 
 import regex as re
@@ -87,6 +88,8 @@ class P2pNcclConnector(KVConnectorBase_V1):
         self._requests_need_load: dict[str, Any] = {}
         self.is_producer = self._kv_transfer_config.is_kv_producer
         self.chunked_prefill: dict[str, tuple[list[int], list[int] | None]] = {}
+        # Optional verbose diagnostics for disagg KV routing/load path.
+        self._debug_kv = os.environ.get("VLLM_KV_DEBUG", "0") == "1"
 
         self._rank = get_world_group().rank if role == KVConnectorRole.WORKER else 0
         self._local_rank = (
@@ -202,8 +205,27 @@ class P2pNcclConnector(KVConnectorBase_V1):
         # Load the KV for each request each layer
         for request in metadata.requests:
             request_id = request.request_id
-            ip, port = self.parse_request_id(request_id, False)
+            try:
+                ip, port = self.parse_request_id(request_id, False)
+            except ValueError:
+                logger.exception(
+                    "❌[decode] failed to parse disagg request_id=%s "
+                    "(expected ___prefill_addr_<ip>:<port>___...)",
+                    request_id,
+                )
+                raise
             remote_address = ip + ":" + str(port + self._rank)
+            if self._debug_kv:
+                logger.info(
+                    "🔎[decode] request_id=%s parsed_prefill=%s:%d remote_address=%s "
+                    "num_layers=%d num_blocks=%d",
+                    request_id,
+                    ip,
+                    port,
+                    remote_address,
+                    len(forward_context.no_compile_layers),
+                    len(request.block_ids),
+                )
             for layer_name in forward_context.no_compile_layers:
                 layer = forward_context.no_compile_layers[layer_name]
 
@@ -216,9 +238,23 @@ class P2pNcclConnector(KVConnectorBase_V1):
 
                 layer = kv_cache[forward_context.virtual_engine]
 
+                if self._debug_kv:
+                    logger.info(
+                        "🔎[decode] recv start request_id=%s layer=%s remote=%s",
+                        request_id,
+                        layer_name,
+                        remote_address,
+                    )
                 kv_cache = self.p2p_nccl_engine.recv_tensor(
                     request.request_id + "#" + layer_name, remote_address
                 )
+                if self._debug_kv:
+                    logger.info(
+                        "🔎[decode] recv done request_id=%s layer=%s got_kv=%s",
+                        request_id,
+                        layer_name,
+                        kv_cache is not None,
+                    )
 
                 if kv_cache is None:
                     logger.warning("🚧kv_cache is None, %s", request.request_id)

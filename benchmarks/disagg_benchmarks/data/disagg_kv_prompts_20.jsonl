@@ -1,0 +1,20 @@
+{"prompt":"Explain the difference between RAM and SSD in exactly three bullet points."}
+{"prompt":"Write a short email asking a teammate to review a pull request by end of day."}
+{"prompt":"Summarize the benefits of daily walking for office workers in 4 sentences."}
+{"prompt":"Give a Python function that checks if a string is a palindrome, ignoring spaces and case."}
+{"prompt":"List five practical ways to reduce cloud costs for a small startup."}
+{"prompt":"Draft a one-paragraph project status update for a delayed feature launch."}
+{"prompt":"Provide a simple SQL query to find the top 3 customers by total spend."}
+{"prompt":"Compare REST and GraphQL for a mobile app backend in a compact table."}
+{"prompt":"Generate a concise checklist for preparing a production release."}
+{"prompt":"Explain what a cache miss is and why it affects latency."}
+{"prompt":"Write a polite response to a customer reporting a billing issue."}
+{"prompt":"Suggest a weekly study plan for learning linear algebra in 8 weeks."}
+{"prompt":"Create three interview questions for a junior backend engineer role."}
+{"prompt":"Outline the steps to debug a 500 error in a web service."}
+{"prompt":"Give a short definition of overfitting and two mitigation strategies."}
+{"prompt":"Write a shell command sequence to find large files in /var/log."}
+{"prompt":"Provide three naming conventions that improve code readability."}
+{"prompt":"Explain idempotency in APIs with one concrete example."}
+{"prompt":"Draft a two-sentence announcement for scheduled maintenance tonight."}
+{"prompt":"List four metrics to monitor for an LLM inference service in production."}

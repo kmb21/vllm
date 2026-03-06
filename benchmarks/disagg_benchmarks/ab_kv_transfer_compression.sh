@@ -35,8 +35,12 @@ INPUT_LEN="${INPUT_LEN:-1024}"
 OUTPUT_LEN="${OUTPUT_LEN:-16}"
 MAX_CONCURRENCY="${MAX_CONCURRENCY:-16}"
 REQUEST_RATE="${REQUEST_RATE:-inf}"
+BENCH_NO_STREAM="${BENCH_NO_STREAM:-0}"
 MODES="${MODES:-none fp8 int8}"
 RESULTS_DIR="${RESULTS_DIR:-benchmarks/disagg_benchmarks/results_kv_transfer_ab}"
+DATASET_NAME="${DATASET_NAME:-custom}"
+DATASET_PATH="${DATASET_PATH:-benchmarks/disagg_benchmarks/data/disagg_kv_prompts_20.jsonl}"
+SKIP_CHAT_TEMPLATE="${SKIP_CHAT_TEMPLATE:-1}"
 KV_PORT_PREFILL="${KV_PORT_PREFILL:-14579}"
 KV_PORT_DECODE="${KV_PORT_DECODE:-14580}"
 PREFILL_PORT="${PREFILL_PORT:-8100}"
@@ -60,14 +64,39 @@ require_cmd() {
 wait_for_http() {
   local url="$1"
   local timeout_s="${2:-300}"
+  local child_pid="${3:-}"
+  local label="${4:-service}"
+  local log_file="${5:-}"
   local start
+  local last_report=0
+  local elapsed=0
   start="$(date +%s)"
   while true; do
     if curl -sS "${url}" >/dev/null 2>&1; then
+      if (( elapsed > 0 )); then
+        echo "Ready: ${label} (${url}) after ${elapsed}s"
+      fi
       return 0
     fi
-    if (( "$(date +%s)" - start > timeout_s )); then
-      echo "Timed out waiting for ${url}" >&2
+    if [[ -n "${child_pid}" ]] && ! kill -0 "${child_pid}" >/dev/null 2>&1; then
+      echo "Process exited while waiting for ${label} (${url}), pid=${child_pid}" >&2
+      return 1
+    fi
+    elapsed=$(( "$(date +%s)" - start ))
+    if (( elapsed - last_report >= 10 )); then
+      echo "Waiting for ${label} (${url})... ${elapsed}s elapsed"
+      if [[ -n "${log_file}" ]] && [[ -f "${log_file}" ]]; then
+        local log_bytes
+        log_bytes="$(wc -c < "${log_file}" | xargs)"
+        echo "  ${label} log: ${log_file} (${log_bytes} bytes)"
+        if (( log_bytes > 0 )); then
+          tail -n 3 "${log_file}" | sed 's/^/    /'
+        fi
+      fi
+      last_report="${elapsed}"
+    fi
+    if (( elapsed > timeout_s )); then
+      echo "Timed out waiting for ${label} (${url}) after ${timeout_s}s" >&2
       return 1
     fi
     sleep 1
@@ -105,14 +134,16 @@ make_kv_config() {
   local role="$1"
   local rank="$2"
   local mode="$3"
+  local kv_ip="$4"
+  local kv_port="$5"
 
   if [[ "${mode}" == "none" ]]; then
     cat <<EOF
-{"kv_connector":"P2pNcclConnector","kv_role":"${role}","kv_rank":${rank},"kv_parallel_size":2,"kv_buffer_size":5e9}
+{"kv_connector":"P2pNcclConnector","kv_role":"${role}","kv_rank":${rank},"kv_parallel_size":2,"kv_buffer_size":5e9,"kv_ip":"${kv_ip}","kv_port":${kv_port}}
 EOF
   else
     cat <<EOF
-{"kv_connector":"P2pNcclConnector","kv_role":"${role}","kv_rank":${rank},"kv_parallel_size":2,"kv_buffer_size":5e9,"kv_transfer_compression":"${mode}","kv_transfer_scale_sharing":"per_tensor"}
+{"kv_connector":"P2pNcclConnector","kv_role":"${role}","kv_rank":${rank},"kv_parallel_size":2,"kv_buffer_size":5e9,"kv_ip":"${kv_ip}","kv_port":${kv_port},"kv_transfer_compression":"${mode}","kv_transfer_scale_sharing":"per_tensor"}
 EOF
   fi
 }
@@ -124,48 +155,59 @@ start_disagg_stack() {
   export VLLM_HOST_IP="${host_ip}"
 
   local prefill_cfg decode_cfg
-  prefill_cfg="$(make_kv_config kv_producer 0 "${mode}")"
-  decode_cfg="$(make_kv_config kv_consumer 1 "${mode}")"
+  prefill_cfg="$(make_kv_config kv_producer 0 "${mode}" "${host_ip}" "${KV_PORT_PREFILL}")"
+  decode_cfg="$(make_kv_config kv_consumer 1 "${mode}" "${host_ip}" "${KV_PORT_DECODE}")"
 
   echo "Starting prefill server (${mode})..."
-  CUDA_VISIBLE_DEVICES="${PREFILL_GPU}" vllm serve "${MODEL}" \
+  local prefill_log="/tmp/vllm_prefill_${mode}.log"
+  local decode_log="/tmp/vllm_decode_${mode}.log"
+  local proxy_log="/tmp/vllm_proxy_${mode}.log"
+
+  : >"${prefill_log}"
+  : >"${decode_log}"
+  : >"${proxy_log}"
+
+  PYTHONUNBUFFERED=1 CUDA_VISIBLE_DEVICES="${PREFILL_GPU}" vllm serve "${MODEL}" \
     --port "${PREFILL_PORT}" \
     --max-model-len "${MAX_MODEL_LEN}" \
     --gpu-memory-utilization 0.70 \
     --kv-transfer-config "${prefill_cfg}" \
-    >/tmp/vllm_prefill_"${mode}".log 2>&1 &
+    >"${prefill_log}" 2>&1 &
   PREFILL_PID="$!"
+  echo "  prefill pid=${PREFILL_PID} log=${prefill_log}"
 
   echo "Starting decode server (${mode})..."
-  CUDA_VISIBLE_DEVICES="${DECODE_GPU}" vllm serve "${MODEL}" \
+  PYTHONUNBUFFERED=1 CUDA_VISIBLE_DEVICES="${DECODE_GPU}" vllm serve "${MODEL}" \
     --port "${DECODE_PORT}" \
     --max-model-len "${MAX_MODEL_LEN}" \
     --gpu-memory-utilization 0.70 \
     --kv-transfer-config "${decode_cfg}" \
-    >/tmp/vllm_decode_"${mode}".log 2>&1 &
+    >"${decode_log}" 2>&1 &
   DECODE_PID="$!"
+  echo "  decode pid=${DECODE_PID} log=${decode_log}"
 
-  if ! wait_for_http "http://localhost:${PREFILL_PORT}/v1/models" 300; then
+  if ! wait_for_http "http://localhost:${PREFILL_PORT}/v1/models" 300 "${PREFILL_PID}" "prefill server" "${prefill_log}"; then
     show_startup_logs "${mode}"
     return 1
   fi
-  if ! wait_for_http "http://localhost:${DECODE_PORT}/v1/models" 300; then
+  if ! wait_for_http "http://localhost:${DECODE_PORT}/v1/models" 300 "${DECODE_PID}" "decode server" "${decode_log}"; then
     show_startup_logs "${mode}"
     return 1
   fi
 
   echo "Starting disagg proxy..."
-  python3 benchmarks/disagg_benchmarks/disagg_prefill_proxy_server.py \
+  PYTHONUNBUFFERED=1 python3 benchmarks/disagg_benchmarks/disagg_prefill_proxy_server.py \
     --port "${PROXY_PORT}" \
     --prefill-url "http://localhost:${PREFILL_PORT}" \
     --decode-url "http://localhost:${DECODE_PORT}" \
     --kv-host "${host_ip}" \
     --prefill-kv-port "${KV_PORT_PREFILL}" \
     --decode-kv-port "${KV_PORT_DECODE}" \
-    >/tmp/vllm_proxy_"${mode}".log 2>&1 &
+    >"${proxy_log}" 2>&1 &
   PROXY_PID="$!"
+  echo "  proxy pid=${PROXY_PID} log=${proxy_log}"
 
-  if ! wait_for_http "http://localhost:${PROXY_PORT}/v1/completions" 120; then
+  if ! wait_for_http "http://localhost:${PROXY_PORT}/v1/completions" 120 "${PROXY_PID}" "disagg proxy" "${proxy_log}"; then
     show_startup_logs "${mode}"
     return 1
   fi
@@ -174,6 +216,33 @@ start_disagg_stack() {
 run_bench() {
   local mode="$1"
   local out_file="${RESULTS_DIR}/${mode}.json"
+  local dataset_args=()
+  local stream_args=()
+
+  if [[ "${DATASET_NAME}" == "custom" ]]; then
+    dataset_args=(
+      --dataset-name custom
+      --dataset-path "${DATASET_PATH}"
+      --custom-output-len "${OUTPUT_LEN}"
+    )
+    if [[ "${SKIP_CHAT_TEMPLATE}" == "1" ]]; then
+      dataset_args+=(--skip-chat-template)
+    fi
+  elif [[ "${DATASET_NAME}" == "random" ]]; then
+    dataset_args=(
+      --dataset-name random
+      --random-input-len "${INPUT_LEN}"
+      --random-output-len "${OUTPUT_LEN}"
+    )
+  else
+    echo "Unsupported DATASET_NAME=${DATASET_NAME}. Supported: custom, random" >&2
+    return 1
+  fi
+
+  if [[ "${BENCH_NO_STREAM}" == "1" ]]; then
+    stream_args+=(--no-stream)
+  fi
+
   echo "Running benchmark for mode=${mode}"
 
   vllm bench serve \
@@ -181,12 +250,11 @@ run_bench() {
     --model "${MODEL}" \
     --endpoint /v1/completions \
     --port "${PROXY_PORT}" \
-    --dataset-name random \
+    "${dataset_args[@]}" \
     --num-prompts "${NUM_PROMPTS}" \
-    --random-input-len "${INPUT_LEN}" \
-    --random-output-len "${OUTPUT_LEN}" \
     --max-concurrency "${MAX_CONCURRENCY}" \
     --request-rate "${REQUEST_RATE}" \
+    "${stream_args[@]}" \
     --save-result \
     --result-dir "${RESULTS_DIR}" \
     --result-filename "$(basename "${out_file}")"
@@ -274,6 +342,12 @@ echo "  INPUT_LEN=${INPUT_LEN}"
 echo "  OUTPUT_LEN=${OUTPUT_LEN}"
 echo "  MAX_CONCURRENCY=${MAX_CONCURRENCY}"
 echo "  REQUEST_RATE=${REQUEST_RATE}"
+echo "  BENCH_NO_STREAM=${BENCH_NO_STREAM}"
+echo "  DATASET_NAME=${DATASET_NAME}"
+if [[ "${DATASET_NAME}" == "custom" ]]; then
+  echo "  DATASET_PATH=${DATASET_PATH}"
+  echo "  SKIP_CHAT_TEMPLATE=${SKIP_CHAT_TEMPLATE}"
+fi
 echo "  MODES=${MODES}"
 echo "  RESULTS_DIR=${RESULTS_DIR}"
 echo ""

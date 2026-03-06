@@ -281,6 +281,12 @@ class FP8TransitConnector(KVConnectorBase_V1):
             scale: scalar float32 tensor.
         """
         orig_shape = kv.shape
+        # Empty tensors can trigger invalid CUDA launch configs in custom ops.
+        # Return a no-op payload that round-trips safely.
+        if kv.numel() == 0:
+            empty = torch.empty(orig_shape, device=kv.device, dtype=torch.int8)
+            scale = torch.ones((), device=kv.device, dtype=torch.float32)
+            return empty, scale
         # scaled_fp8_quant requires 2D input: (M, N)
         kv_2d = kv.reshape(-1, kv.shape[-1]).to(torch.float32)
         kv_fp8, scale = scaled_fp8_quant(kv_2d)
@@ -431,8 +437,13 @@ class FP8TransitConnector(KVConnectorBase_V1):
                 kv_stored = saved["kv"].to(kv_cache_layer.device)
 
                 if self._compression == "fp8":
-                    scale = saved["scale"].to(kv_cache_layer.device)
-                    kv = self._dequantize_fp8(kv_stored, scale, target_dtype)
+                    # If quantization fallback was used on producer side,
+                    # "scale" is absent and we should treat payload as raw KV.
+                    if "scale" in saved:
+                        scale = saved["scale"].to(kv_cache_layer.device)
+                        kv = self._dequantize_fp8(kv_stored, scale, target_dtype)
+                    else:
+                        kv = kv_stored.to(target_dtype)
                 else:
                     kv = kv_stored.to(target_dtype)
 
@@ -480,15 +491,28 @@ class FP8TransitConnector(KVConnectorBase_V1):
             kv_raw = self._extract_kv(kv_layer, slot_mapping_gpu, layer_attn_meta)
 
             if self._compression == "fp8":
-                kv_stored, scale = self._quantize_fp8(kv_raw)
-                compress_time = time.perf_counter() - t0
-                bytes_unc = kv_raw.nbytes
-                bytes_cmp = kv_stored.nbytes + scale.nbytes
-                self._stats.record_compress(bytes_unc, bytes_cmp, compress_time)
-                tensors = {
-                    "kv": kv_stored.cpu(),
-                    "scale": scale.cpu(),
-                }
+                try:
+                    kv_stored, scale = self._quantize_fp8(kv_raw)
+                    compress_time = time.perf_counter() - t0
+                    bytes_unc = kv_raw.nbytes
+                    bytes_cmp = kv_stored.nbytes + scale.nbytes
+                    self._stats.record_compress(bytes_unc, bytes_cmp, compress_time)
+                    tensors = {
+                        "kv": kv_stored.cpu(),
+                        "scale": scale.cpu(),
+                    }
+                except Exception:
+                    # Keep request alive by falling back to uncompressed payload
+                    # if FP8 quantization kernel fails on this hardware/shape.
+                    logger.exception(
+                        "FP8 quantization failed for layer=%s; "
+                        "falling back to raw KV for this tensor.",
+                        layer_name,
+                    )
+                    compress_time = time.perf_counter() - t0
+                    bytes_raw = kv_raw.nbytes
+                    self._stats.record_compress(bytes_raw, bytes_raw, compress_time)
+                    tensors = {"kv": kv_raw.cpu()}
             else:
                 compress_time = time.perf_counter() - t0
                 bytes_raw = kv_raw.nbytes

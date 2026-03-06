@@ -10,7 +10,7 @@ import uuid
 from urllib.parse import urlparse
 
 import aiohttp
-from quart import Quart, Response, make_response, request
+from quart import Quart, Response, request
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -77,6 +77,7 @@ def main():
     PREFILL_SERVICE_URL = args.prefill_url
     DECODE_SERVICE_URL = args.decode_url
     PORT = args.port
+    debug_stream = os.environ.get("DISAGG_PROXY_DEBUG", "0") == "1"
 
     PREFILL_KV_ADDR = f"{args.kv_host}:{args.prefill_kv_port}"
     DECODE_KV_ADDR = f"{args.kv_host}:{args.decode_kv_port}"
@@ -86,6 +87,7 @@ def main():
         PREFILL_KV_ADDR,
         DECODE_KV_ADDR,
     )
+    logger.info("DISAGG_PROXY_DEBUG=%s", "1" if debug_stream else "0")
 
     app = Quart(__name__)
 
@@ -173,6 +175,14 @@ def main():
                 aiohttp.ClientSession(timeout=AIOHTTP_TIMEOUT) as session,
                 session.post(url=url, json=payload, headers=headers) as resp,
             ):
+                if debug_stream:
+                    logger.info(
+                        "[decode] response headers request_id=%s status=%s content-type=%s transfer-encoding=%s",
+                        request_id,
+                        resp.status,
+                        resp.headers.get("Content-Type"),
+                        resp.headers.get("Transfer-Encoding"),
+                    )
                 if resp.status != 200:
                     error_text = await resp.text()
                     logger.error(
@@ -188,9 +198,24 @@ def main():
                     request_id,
                     resp.status,
                 )
+                chunk_count = 0
                 async for chunk_bytes in resp.content.iter_chunked(1024):
+                    chunk_count += 1
+                    if debug_stream and chunk_count <= 3:
+                        preview = chunk_bytes[:160].decode("utf-8", errors="replace")
+                        logger.info(
+                            "[decode] chunk[%d] request_id=%s bytes=%d preview=%r",
+                            chunk_count,
+                            request_id,
+                            len(chunk_bytes),
+                            preview,
+                        )
                     yield chunk_bytes
-                logger.info("[decode] finished streaming request_id=%s", request_id)
+                logger.info(
+                    "[decode] finished streaming request_id=%s chunks=%d",
+                    request_id,
+                    chunk_count,
+                )
         except asyncio.TimeoutError:
             logger.error("Decode service timeout at %s", url)
             yield b'{"error": "Decode service timeout"}'
@@ -198,10 +223,47 @@ def main():
             logger.error("Decode service error at %s: %s", url, exc)
             yield b'{"error": "Decode service unavailable"}'
 
+    async def _decode_non_stream(
+        request_path: str,
+        payload: dict,
+        headers: dict[str, str],
+        request_id: str,
+    ) -> tuple[bytes, int, str]:
+        """Forward a non-streaming decode request and return full response body."""
+        url = f"{DECODE_BASE}{request_path}"
+        logger.info("[decode] non-stream start request_id=%s url=%s", request_id, url)
+        try:
+            async with (
+                aiohttp.ClientSession(timeout=AIOHTTP_TIMEOUT) as session,
+                session.post(url=url, json=payload, headers=headers) as resp,
+            ):
+                body = await resp.read()
+                content_type = resp.headers.get("Content-Type", "application/json")
+                logger.info(
+                    "[decode] non-stream done request_id=%s status=%s bytes=%d",
+                    request_id,
+                    resp.status,
+                    len(body),
+                )
+                return body, resp.status, content_type
+        except asyncio.TimeoutError:
+            logger.error("Decode service timeout at %s", url)
+            return b'{"error": "Decode service timeout"}', 504, "application/json"
+        except aiohttp.ClientError as exc:
+            logger.error("Decode service error at %s: %s", url, exc)
+            return b'{"error": "Decode service unavailable"}', 503, "application/json"
+
     async def process_request():
         """Process a single request through prefill and decode stages"""
         try:
             original_request_data = await request.get_json()
+            if debug_stream:
+                logger.info(
+                    "[request] path=%s stream=%s max_tokens=%s",
+                    request.path,
+                    original_request_data.get("stream"),
+                    original_request_data.get("max_tokens"),
+                )
 
             # Create prefill request (max_tokens=1)
             prefill_request = original_request_data.copy()
@@ -221,15 +283,27 @@ def main():
             headers = _build_headers(request_id)
             await _run_prefill(request.path, prefill_request, headers, request_id)
 
-            # Execute decode stage and stream response
-            # Pass the unmodified user request so the decode phase can continue
-            # sampling with the already-populated KV cache.
-            generator = _stream_decode(
+            is_stream = bool(original_request_data.get("stream", False))
+            if is_stream:
+                # Execute decode stage and stream response.
+                generator = _stream_decode(
+                    request.path, original_request_data, headers, request_id
+                )
+                response = Response(
+                    generator,
+                    status=200,
+                    content_type="text/event-stream",
+                )
+                response.headers["Cache-Control"] = "no-cache"
+                response.headers["X-Accel-Buffering"] = "no"
+                response.timeout = None  # Disable timeout for streaming response
+                return response
+
+            # Execute decode stage for non-stream requests and return a single JSON body.
+            body, status_code, content_type = await _decode_non_stream(
                 request.path, original_request_data, headers, request_id
             )
-            response = await make_response(generator)
-            response.timeout = None  # Disable timeout for streaming response
-            return response
+            return Response(response=body, status=status_code, content_type=content_type)
 
         except Exception:
             logger.exception("Error processing request")

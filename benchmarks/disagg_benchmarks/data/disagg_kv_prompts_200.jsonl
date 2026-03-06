@@ -1,0 +1,200 @@
+{"prompt": "Explain the difference between RAM and SSD in exactly three bullet points."}
+{"prompt": "Write a short email asking a teammate to review a pull request by end of day."}
+{"prompt": "Summarize the benefits of daily walking for office workers in 4 sentences."}
+{"prompt": "Give a Python function that checks if a string is a palindrome, ignoring spaces and case."}
+{"prompt": "List five practical ways to reduce cloud costs for a small startup."}
+{"prompt": "Draft a one-paragraph project status update for a delayed feature launch."}
+{"prompt": "Provide a simple SQL query to find the top 3 customers by total spend."}
+{"prompt": "Compare REST and GraphQL for a mobile app backend in a compact table."}
+{"prompt": "Generate a concise checklist for preparing a production release."}
+{"prompt": "Explain what a cache miss is and why it affects latency."}
+{"prompt": "Write a polite response to a customer reporting a billing issue."}
+{"prompt": "Suggest a weekly study plan for learning linear algebra in 8 weeks."}
+{"prompt": "Create three interview questions for a junior backend engineer role."}
+{"prompt": "Outline the steps to debug a 500 error in a web service."}
+{"prompt": "Give a short definition of overfitting and two mitigation strategies."}
+{"prompt": "Write a shell command sequence to find large files in /var/log."}
+{"prompt": "Provide three naming conventions that improve code readability."}
+{"prompt": "Explain idempotency in APIs with one concrete example."}
+{"prompt": "Draft a two-sentence announcement for scheduled maintenance tonight."}
+{"prompt": "List four metrics to monitor for an LLM inference service in production."}
+{"prompt": "Task 21: Explain a practical python scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 22: Explain a practical sql scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 23: Explain a practical linux scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 24: Explain a practical kubernetes scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 25: Explain a practical docker scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 26: Explain a practical networking scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 27: Explain a practical security scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 28: Explain a practical machine learning scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 29: Explain a practical cloud costs scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 30: Explain a practical system design scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 31: Explain a practical observability scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 32: Explain a practical testing scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 33: Compare a practical python scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 34: Compare a practical sql scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 35: Compare a practical linux scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 36: Compare a practical kubernetes scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 37: Compare a practical docker scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 38: Compare a practical networking scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 39: Compare a practical security scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 40: Compare a practical machine learning scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 41: Compare a practical cloud costs scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 42: Compare a practical system design scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 43: Compare a practical observability scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 44: Compare a practical testing scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 45: List a practical python scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 46: List a practical sql scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 47: List a practical linux scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 48: List a practical kubernetes scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 49: List a practical docker scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 50: List a practical networking scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 51: List a practical security scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 52: List a practical machine learning scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 53: List a practical cloud costs scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 54: List a practical system design scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 55: List a practical observability scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 56: List a practical testing scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 57: Summarize a practical python scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 58: Summarize a practical sql scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 59: Summarize a practical linux scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 60: Summarize a practical kubernetes scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 61: Summarize a practical docker scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 62: Summarize a practical networking scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 63: Summarize a practical security scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 64: Summarize a practical machine learning scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 65: Summarize a practical cloud costs scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 66: Summarize a practical system design scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 67: Summarize a practical observability scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 68: Summarize a practical testing scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 69: Draft a practical python scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 70: Draft a practical sql scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 71: Draft a practical linux scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 72: Draft a practical kubernetes scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 73: Draft a practical docker scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 74: Draft a practical networking scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 75: Draft a practical security scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 76: Draft a practical machine learning scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 77: Draft a practical cloud costs scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 78: Draft a practical system design scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 79: Draft a practical observability scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 80: Draft a practical testing scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 81: Debug a practical python scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 82: Debug a practical sql scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 83: Debug a practical linux scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 84: Debug a practical kubernetes scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 85: Debug a practical docker scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 86: Debug a practical networking scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 87: Debug a practical security scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 88: Debug a practical machine learning scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 89: Debug a practical cloud costs scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 90: Debug a practical system design scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 91: Debug a practical observability scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 92: Debug a practical testing scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 93: Optimize a practical python scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 94: Optimize a practical sql scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 95: Optimize a practical linux scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 96: Optimize a practical kubernetes scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 97: Optimize a practical docker scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 98: Optimize a practical networking scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 99: Optimize a practical security scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 100: Optimize a practical machine learning scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 101: Optimize a practical cloud costs scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 102: Optimize a practical system design scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 103: Optimize a practical observability scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 104: Optimize a practical testing scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 105: Design a practical python scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 106: Design a practical sql scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 107: Design a practical linux scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 108: Design a practical kubernetes scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 109: Design a practical docker scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 110: Design a practical networking scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 111: Design a practical security scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 112: Design a practical machine learning scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 113: Design a practical cloud costs scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 114: Design a practical system design scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 115: Design a practical observability scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 116: Design a practical testing scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 117: Outline a practical python scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 118: Outline a practical sql scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 119: Outline a practical linux scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 120: Outline a practical kubernetes scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 121: Outline a practical docker scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 122: Outline a practical networking scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 123: Outline a practical security scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 124: Outline a practical machine learning scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 125: Outline a practical cloud costs scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 126: Outline a practical system design scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 127: Outline a practical observability scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 128: Outline a practical testing scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 129: Review a practical python scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 130: Review a practical sql scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 131: Review a practical linux scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 132: Review a practical kubernetes scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 133: Review a practical docker scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 134: Review a practical networking scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 135: Review a practical security scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 136: Review a practical machine learning scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 137: Review a practical cloud costs scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 138: Review a practical system design scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 139: Review a practical observability scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 140: Review a practical testing scenario for a startup team in exactly 3 bullet points. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 141: Explain a practical python scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 142: Explain a practical sql scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 143: Explain a practical linux scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 144: Explain a practical kubernetes scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 145: Explain a practical docker scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 146: Explain a practical networking scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 147: Explain a practical security scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 148: Explain a practical machine learning scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 149: Explain a practical cloud costs scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 150: Explain a practical system design scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 151: Explain a practical observability scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 152: Explain a practical testing scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 153: Compare a practical python scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 154: Compare a practical sql scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 155: Compare a practical linux scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 156: Compare a practical kubernetes scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 157: Compare a practical docker scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 158: Compare a practical networking scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 159: Compare a practical security scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 160: Compare a practical machine learning scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 161: Compare a practical cloud costs scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 162: Compare a practical system design scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 163: Compare a practical observability scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 164: Compare a practical testing scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 165: List a practical python scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 166: List a practical sql scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 167: List a practical linux scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 168: List a practical kubernetes scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 169: List a practical docker scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 170: List a practical networking scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 171: List a practical security scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 172: List a practical machine learning scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 173: List a practical cloud costs scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 174: List a practical system design scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 175: List a practical observability scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 176: List a practical testing scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 177: Summarize a practical python scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 178: Summarize a practical sql scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 179: Summarize a practical linux scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 180: Summarize a practical kubernetes scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 181: Summarize a practical docker scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 182: Summarize a practical networking scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 183: Summarize a practical security scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 184: Summarize a practical machine learning scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 185: Summarize a practical cloud costs scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 186: Summarize a practical system design scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 187: Summarize a practical observability scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 188: Summarize a practical testing scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 189: Draft a practical python scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 190: Draft a practical sql scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 191: Draft a practical linux scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 192: Draft a practical kubernetes scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 193: Draft a practical docker scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 194: Draft a practical networking scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 195: Draft a practical security scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 196: Draft a practical machine learning scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 197: Draft a practical cloud costs scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 198: Draft a practical system design scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 199: Draft a practical observability scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}
+{"prompt": "Task 200: Draft a practical testing scenario for a startup team in 4 concise sentences. Include one actionable recommendation and one measurable success criterion."}

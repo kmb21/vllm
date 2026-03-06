@@ -5,6 +5,7 @@ Define KV connector functionality mixin for model runners.
 """
 
 import copy
+import os
 from collections.abc import Generator
 from contextlib import AbstractContextManager, contextmanager, nullcontext
 from typing import TYPE_CHECKING
@@ -34,6 +35,7 @@ if TYPE_CHECKING:
     from vllm.v1.core.sched.output import SchedulerOutput
 
 logger = init_logger(__name__)
+KV_DEBUG = os.environ.get("VLLM_KV_DEBUG", "0") == "1"
 
 
 # Defined as a kv connector functionality mixin for ModelRunner (GPU, TPU)
@@ -93,22 +95,43 @@ class KVConnectorModelRunnerMixin:
         assert isinstance(kv_connector, KVConnectorBase)
         assert scheduler_output.kv_connector_metadata is not None
         kv_connector.bind_connector_metadata(scheduler_output.kv_connector_metadata)
+        if KV_DEBUG:
+            req_count = len(getattr(scheduler_output.kv_connector_metadata, "requests", []))
+            logger.info(
+                "🔎[kv-mixin] before start_load_kv req_count=%d "
+                "finished_req_ids=%d wait_for_save=%s clear_metadata=%s",
+                req_count,
+                len(scheduler_output.finished_req_ids),
+                wait_for_save,
+                clear_metadata,
+            )
 
         # Background KV cache transfers happen here.
         # These transfers are designed to be async and the requests
         # involved may be disjoint from the running requests.
         # Do this here to save a collective_rpc.
         kv_connector.start_load_kv(get_forward_context())
+        if KV_DEBUG:
+            logger.info("🔎[kv-mixin] after start_load_kv")
         try:
             yield output
         finally:
             if wait_for_save:
                 kv_connector.wait_for_save()
+                if KV_DEBUG:
+                    logger.info("🔎[kv-mixin] after wait_for_save")
 
             output.finished_sending, output.finished_recving = (
                 kv_connector.get_finished(scheduler_output.finished_req_ids)
             )
             output.invalid_block_ids = kv_connector.get_block_ids_with_load_errors()
+            if KV_DEBUG:
+                logger.info(
+                    "🔎[kv-mixin] get_finished sending=%s recving=%s invalid_block_ids=%s",
+                    output.finished_sending,
+                    output.finished_recving,
+                    output.invalid_block_ids,
+                )
 
             output.kv_connector_stats = kv_connector.get_kv_connector_stats()
             output.kv_cache_events = kv_connector.get_kv_connector_kv_cache_events()
